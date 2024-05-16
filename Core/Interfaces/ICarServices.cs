@@ -12,6 +12,7 @@ namespace Core.Interfaces
         Task<IReadOnlyList<CarToReturnDto>> GetCars();
         Task<CarToReturnDto?> GetCarById(int id);
         Task<IReadOnlyList<CarToReturnDto>?> SearchCars(string name);
+        Task<IReadOnlyList<CarToReturnDto>?> GetFavourites(string userEmail);
         Task<bool> AddCar(CarDto carDto);
         Task<bool> DeleteCar(int id);
     }

@@ -39,6 +39,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<ICarServices, CarService>();
 builder.Services.AddScoped<ICategoryServices, CategoryService>();
 builder.Services.AddScoped<IBrandServices, BrandService>();
+builder.Services.AddScoped<IFavService,FavService>();
 
 builder.Services.AddScoped<IModelServices, ModelService>();
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>

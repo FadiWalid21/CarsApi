@@ -154,6 +154,24 @@ namespace Infrastructure.Migrations
                     b.ToTable("Models");
                 });
 
+            modelBuilder.Entity("Core.Entities.UserFavProducts", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("UserFavProducts");
+                });
+
             modelBuilder.Entity("Core.Identity.ApplicationRole", b =>
                 {
                     b.Property<int>("Id")
@@ -400,6 +418,21 @@ namespace Infrastructure.Migrations
                     b.Navigation("Brand");
                 });
 
+            modelBuilder.Entity("Core.Entities.UserFavProducts", b =>
+                {
+                    b.HasOne("Core.Entities.Car", null)
+                        .WithMany("FavouriteCars")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Identity.ApplicationUser", null)
+                        .WithMany("FavouriteCars")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Core.Identity.ApplicationRole", null)
@@ -458,6 +491,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("Models");
                 });
 
+            modelBuilder.Entity("Core.Entities.Car", b =>
+                {
+                    b.Navigation("FavouriteCars");
+                });
+
             modelBuilder.Entity("Core.Entities.Category", b =>
                 {
                     b.Navigation("Cars");
@@ -466,6 +504,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.Entities.Model", b =>
                 {
                     b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("Core.Identity.ApplicationUser", b =>
+                {
+                    b.Navigation("FavouriteCars");
                 });
 #pragma warning restore 612, 618
         }

@@ -25,6 +25,7 @@ namespace Core.Entities
         public Model Model { get; set; }
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
+        public List<UserFavProducts> FavouriteCars { get; set; } = new List<UserFavProducts>();
 
     }
 }

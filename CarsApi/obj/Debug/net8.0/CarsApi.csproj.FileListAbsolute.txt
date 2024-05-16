@@ -145,3 +145,4 @@
 /Users/macbookpro/dev/For-fci/CarsApi/CarsApi/bin/Debug/net8.0/Microsoft.Extensions.Identity.Core.dll
 /Users/macbookpro/dev/For-fci/CarsApi/CarsApi/bin/Debug/net8.0/Microsoft.Extensions.Identity.Stores.dll
 /Users/macbookpro/dev/For-fci/CarsApi/CarsApi/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
+/Users/macbookpro/dev/For-fci/CarsApi/CarsApi/obj/Debug/net8.0/CarsApi.sourcelink.json

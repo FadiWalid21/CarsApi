@@ -23,6 +23,8 @@ namespace Infrastructure
         public DbSet<Category> Categories { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Brand> Brands { get; set; }
+
+        public DbSet<UserFavProducts> UserFavProducts { get; set; }
         // public DbSet<CarModel> CarModels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,6 +44,19 @@ namespace Infrastructure
         .WithMany(m => m.Cars)
         .HasForeignKey(c => c.ModelId)
         .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<UserFavProducts>()
+                .HasKey(ufp => new { ufp.UserId, ufp.ProductId });
+
+            modelBuilder.Entity<UserFavProducts>()
+                .HasOne<ApplicationUser>()
+                .WithMany(u => u.FavouriteCars)
+                .HasForeignKey(ufp => ufp.UserId);
+
+            modelBuilder.Entity<UserFavProducts>()
+                .HasOne<Car>()
+                .WithMany(c => c.FavouriteCars)
+                .HasForeignKey(ufp => ufp.ProductId);
         }
     }
 }

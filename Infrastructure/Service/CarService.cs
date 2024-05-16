@@ -17,6 +17,49 @@ namespace Infrastructure.Service
             _context = context;
         }
 
+        public async Task<IReadOnlyList<CarToReturnDto>?> GetFavourites(string userEmail)
+        {
+            var user = await _context.Users
+                .Include(u => u.FavouriteCars)
+                .FirstOrDefaultAsync(u => u.Email == userEmail);
+
+            if (user == null)
+            {
+                return new List<CarToReturnDto>();
+            }
+
+            var favouriteCarIds = user.FavouriteCars.Select(f => f.ProductId).ToList();
+
+            var favouriteCars = await _context.Cars
+                .Where(car => favouriteCarIds.Contains(car.Id))
+                .Include(car => car.Brand)
+                .Include(car => car.Model)
+                .Include(car => car.CarType)
+                .ToListAsync();
+
+            var carDtos = favouriteCars.Select(car => new CarToReturnDto
+            {
+                Id = car.Id,
+                Name = $"{car.Brand?.Name} {car.Model?.Name}",
+                Year = car.Year,
+                Cylinder = car.Cylinder,
+                Doors = car.Doors,
+                ImagesUrls = car.ImagesUrls,  // Direct assignment if ImagesUrls is a property in Car
+                MinPrice = car.MinPrice,
+                MaxPrice = car.MaxPrice,
+                Motor = car.Motor,
+                Country = car.Brand.Country,
+                Colors = car.Colors,  // Direct assignment if Colors is a property in Car
+                Tank = car.Tank,
+                GearBox = car.GearBox,
+                PowerHorse = car.PowerHorse,
+                CarType = car.CarType.Name,  // Assuming CarType has a Name property
+                Model = car.Model.Name  // Assuming Model has a Name property
+            }).ToList();
+
+            return carDtos;
+        }
+
         public async Task<bool> AddCar(CarDto carDto)
         {
             var model = await _context.Models.FindAsync(carDto.ModelId);
@@ -157,5 +200,6 @@ namespace Infrastructure.Service
 
             return null;
         }
+        
     }
 }
